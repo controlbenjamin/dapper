@@ -1,0 +1,37 @@
+public async Task<IEnumerable<Product>> Get()
+        {
+
+            string connectionString = @"Data Source=NOTEBENJA\SQLEXPRESS;Initial Catalog=sample_caDb;Integrated Security=True";
+
+            string sql = "SELECT * FROM Products";
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return await connection.QueryAsync<Product>(sql);
+
+
+            }
+
+        }
+
+
+
+        // GET api/<ProductsController>/5
+        [HttpGet("{id}")]
+        public async Task<Product> Get(int id)
+        {
+            string connectionString = @"Data Source=NOTEBENJA\SQLEXPRESS;Initial Catalog=sample_caDb;Integrated Security=True";
+
+            var parameters = new { ProductId = id };
+            
+            string sql = "SELECT * FROM Products WHERE Id = @ProductId;";
+
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                return await connection.QueryFirstOrDefaultAsync<Product>(sql, parameters);
+
+            }
+
+   
+        }
